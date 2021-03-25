@@ -33,6 +33,10 @@ def run():
     mid = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(1) # 익일 자정
     nextDay = mid + datetime.timedelta(hours=9)  #익일 자정 + 9시간 --> 익일 오전 9시
     coin_list = getCoinData() # 거래할 코인 리스트 불러옴
+    coin_list_dic = {}
+    for ticker in coin_list:
+        coin_list_dic[ticker] = {}
+        coin_list_dic[ticker]['isSendMsg'] = False
 
     while True:
         try:
@@ -68,7 +72,9 @@ def run():
                         #buyTransNo = limit_buy_upbit(ticker, buy_amt, order_price) #지정가 매수
                         if buyTransNo is not None:
                             print(ticker + ' buy!!')
-                            sendTelegramMsg(ticker + '매수완료')
+                            if not coin_list_dic[ticker]['isSendMsg']: # 텔레그램 메시지를 보내지 않았으면 즉 False면.
+                                sendTelegramMsg(ticker + '매수완료')
+                                coin_list_dic[ticker]['isSendMsg'] = True # 텔레그램 메시지 보냈다라고 체크.
 
                 if rsiSignal < 0 and stochSignal < 0:
                     unit = float(getTickerAmt(ticker))
@@ -78,6 +84,8 @@ def run():
                         #sellTransNo = market_sell_upbit (ticker, unit)  # 시장가 매도
                         if sellTransNo is not None:
                             print(ticker + ' sell!!')
+                            sendTelegramMsg(ticker + '매도완료')
+                            coin_list_dic[ticker]['isSendMsg'] = False # 향후 매수 메시지를 받기위해 False로 되돌림.
 
                 time.sleep(0.1)
 
