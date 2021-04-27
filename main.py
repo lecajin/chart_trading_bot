@@ -49,7 +49,8 @@ def run():
             time.sleep(0.1)
 
             for ticker in coin_list:
-                avgBuyPrice = float(getAvgBuyPrice(ticker)) # 매수 평균가 조회
+                avgBuyPrice = float(getAvgBuyPrice(ticker)) # 매수 평균가 조회 ※빗썸에서는 매수 평균가 조회 기능을 지원하지 않는 것 같음. 빗썸으로 거래할 경우 해당 로직은 주석처리 해야 함.
+                #tickerAmt = getTickerAmt(ticker) #가지고 있는 코인 수량을 조회. 빗썸거래소 사용할 경우 이부분을 사용해야 함.
                 rsiSignal = getRSISignal(ticker)
                 stochSignal =  getStochSignal(ticker)
                 #BBSignal = getBBSignal(ticker)
@@ -65,6 +66,7 @@ def run():
                         continue # 투자금액이 미달되므로 다음 코인으로 넘어간다.
 
                     if avgBuyPrice == 0.0: # 매수평균가가 0이면 즉, 매수한 적이 없으면
+                    #if tickerAmt == 0.0:  # 매수한 코인이 없으면..(빗썸을 사용할 경우 이것을 사용해야함.)
                         buyTransNo = market_buy_upbit(ticker, invest_price) # 시장가매수
 
                         #order_price = getBuyOrderPrice(ticker, 1) # 최우선 다음 매수호가 조회. 최우선 매수호가 조회시 0을 입력
