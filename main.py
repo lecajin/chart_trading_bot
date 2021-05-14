@@ -17,11 +17,11 @@ bot = telegram.Bot(token = telegm_token)
 
 coin_list = []
 
-
 exchange = ccxt.upbit({'apiKey':'',
                     'secret':'',
                     'enableRateLimit': True
                     })
+
 '''
 exchange = ccxt.bithumb({'apiKey':'',
                     'secret':'',
@@ -53,6 +53,10 @@ def run():
                 #tickerAmt = getTickerAmt(ticker) #가지고 있는 코인 수량을 조회. 빗썸거래소 사용할 경우 이부분을 사용해야 함.
                 rsiSignal = getRSISignal(ticker)
                 stochSignal =  getStochSignal(ticker)
+                print('=====================[ ' + ticker + ' ]====================')
+                print('rsiSignal : ' + str(rsiSignal))
+                print('stochSignal : ' + str(stochSignal))
+                print('====================================================')
                 #BBSignal = getBBSignal(ticker)
                 #mfiSignal = getMFISignal(ticker)
                 #macdSignal = getMACDSignal(ticker)
